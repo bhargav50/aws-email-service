@@ -47,37 +47,31 @@ CHARSET = "UTF-8"
 client = boto3.client('ses',region_name=AWS_REGION)
 
 
-
-
-
-
 def send_email(email_dict):
     # Try to send the email.
     try:
         #Provide the contents of the email.
         response = client.send_email(
             Destination={
-                'ToAddresses': [
-                    RECIPIENT,
-                ],
+                'ToAddresses': email_dict["to_addesses"],
             },
             Message={
                 'Body': {
                     'Html': {
                         'Charset': CHARSET,
-                        'Data': BODY_HTML,
+                        'Data': email_dict["body_html"],
                     },
                     'Text': {
                         'Charset': CHARSET,
-                        'Data': BODY_TEXT,
+                        'Data': email_dict["body_text"],
                     },
                 },
                 'Subject': {
                     'Charset': CHARSET,
-                    'Data': SUBJECT,
+                    'Data': email_dict["title"],
                 },
             },
-            Source=SENDER,
+            Source=email_dict["from"],
             # If you are not using a configuration set, comment or delete the
             # following line
             # ConfigurationSetName=CONFIGURATION_SET,
