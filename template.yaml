@@ -41,6 +41,14 @@ Resources:
 
   EmailSqsQueue:
     Type: AWS::SQS::Queue
+    Properties:
+      QueueName: EmailSqsQ
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt EmailSqsDLQ.Arn
+        maxReceiveCount: 5
+
+  EmailSqsDLQ:
+    Type: AWS::SQS::Queue
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
