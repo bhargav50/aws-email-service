@@ -1,6 +1,8 @@
 
 import boto3
+import ESLogger as eslogger
 from botocore.exceptions import ClientError
+
 
 CHARSET = "UTF-8"
 
@@ -33,11 +35,11 @@ def send_email(email_dict):
             # following line
             # ConfigurationSetName=CONFIGURATION_SET,
         )
-        print(response)
+        eslogger.info(response)
     # Display an error if something goes wrong.
     except ClientError as e:
-        print(e.response['Error']['Message'])
+        eslogger.error(e.response['Error']['Message'])
     else:
-        print("Email sent! Message ID:"),
-        print(response['MessageId'])
+        eslogger.info("Email sent! Message ID:"),
+        eslogger.info(response['MessageId'])
         return response
