@@ -2,20 +2,13 @@ import json
 
 import EmailSender as email_sender
 
-# import requests
-
 
 def lambda_handler(event, context):
-
-
-    # try:
-    #     ip = requests.get("http://checkip.amazonaws.com/")
-    # except requests.RequestException as e:
-    #     # Send some context about this error to Lambda Logs
-    #     print(e)
-
-    #     raise e
-    email_sender.send_email({})
+    # Handling SQS request
+    for record in event['Records']:
+        payload = json.loads(record["body"])
+        print(payload)
+    email_sender.send_email(payload)
 
     return {
         "statusCode": 200,
@@ -24,3 +17,8 @@ def lambda_handler(event, context):
             # "location": ip.text.replace("\n", "")
         }),
     }
+
+
+def get_email_dict(payload):
+    email_dict = {}
+    email_dict[""]
