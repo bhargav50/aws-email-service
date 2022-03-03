@@ -15,8 +15,8 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: email_sender/
-      Handler: app.lambda_handler
-      Runtime: python3.8
+      Handler: app.lambda_handler_sqs
+      Runtime: python3.9
       Architectures:
         - x86_64
       Events:
@@ -30,8 +30,10 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: email_sender/
-      Handler: app.lambda_handler_sqs
-      Runtime: python3.8
+      Handler: app.lambda_handler_sns_sqs
+      Runtime: python3.9
+      Policies:
+        - AmazonSESFullAccess
       Events:
         EmailSQSEvent:
           Type: SQS
@@ -49,6 +51,19 @@ Resources:
 
   EmailSqsDLQ:
     Type: AWS::SQS::Queue
+
+  EmailSNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "email-service-topic"
+
+  EmailQueueToSnsSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !GetAtt EmailSqsQueue.Arn
+      Protocol: sqs
+      RawMessageDelivery: true
+      TopicArn: !Ref EmailSNSTopic
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
