@@ -1,31 +1,43 @@
 
 
 {
-  \"from\": \"arun_mr549e@protonmail.com\",
-  \"to_addesses\": [\"merry.arun@gmail.com\", \"strider.galaxies@gmail.com\"],
-  \"title\": \"Remaining time of Event is Changed\",
-  \"body_html\": \"<p>Blah Blah</p>\",
-  \"body_text\": \"Blah Blah\"
-}
-
-{
   "from": "arun_mr549e@protonmail.com",
   "to_addesses": ["merry.arun@gmail.com", "strider.galaxies@gmail.com"],
-  "title": "Remaining time of Event is Changed",
+  "title": "Email Service Test",
   "body_html": "<p>Blah Blah</p>",
   "body_text": "Blah Blah"
 }
 
-{\"from\": \"arun_mr549e@protonmail.com\",\"to_addesses\": [\"merry.arun@gmail.com\", \"strider.galaxies@gmail.com\"],\"title\": \"Remaining time of Event is Changed\",\"body_html\": \"<p>Blah Blah</p>\",\"body_text\": \"Blah Blah\"}
+## Success response from SES
 
-{\\\"from\\\": \\\"arun_mr549e@protonmail.com\\\",\\\"to_addesses\\\": [\\\"merry.arun@gmail.com\\\", \\\"strider.galaxies@gmail.com\\\"],\\\"title\\\": \\\"Remaining time of Event is Changed\\\",\\\"body_html\\\": \\\"<p>Blah Blah</p>\\\",\\\"body_text\\\": \\\"Blah Blah\\\"}
+{
+  'MessageId': '010f017f4ea80c69-401696f0-146a-4974-9ebf-eebf51022159-000000',
+  'ResponseMetadata': {
+    'RequestId': '242ea8b6-fa2f-456d-9b0f-2b053c56ada1',
+    'HTTPStatusCode': 200,
+    'HTTPHeaders': {'date': 'Thu, 03 Mar 2022 07:21:50 GMT', 'content-type': 'text/xml', 'content-length': '326', 'connection': 'keep-alive', 'x-amzn-requestid': '242ea8b6-fa2f-456d-9b0f-2b053c56ada1'},
+    'RetryAttempts': 0
+    }
+}
 
+## Error response from ses
 
-
-{\"Type\" : \"Notification\",\"MessageId\" : \"11466a77-24b6-5a9d-bf59-30ee6529097e\",\"TopicArn\" : \"arn:aws:sns:us-east-2:107569227309:email-sender-app-EmailSNSTopic-DFR2U2JODGXU\",\"Subject\" : \"Testings sns\",\"Message\" : \"Hello world! we are testing.\",\"Timestamp\" : \"2022-03-02T09:56:47.658Z\",\"SignatureVersion\" : \"1\",\"Signature\" : \"70ig==\",\"SigningCertURL\" : \"https://sns.us-east-2.amazonaws.com/SimpleNotificationService-7ff5318490ec183fbaddaa2a969abfda.pem\",\"UnsubscribeURL\" : \"https://sns.us-east-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-2:107569227309:email-sender-app-EmailSNSTopic-DFR2U2JODGXU:45d2fd95-696d-4304-9146-a1d6f4698d83\"}
-
-
-{"Type" : "Notification","MessageId" : "11466a77-24b6-5a9d-bf59-30ee6529097e","TopicArn" : "arn:aws:sns:us-east-2:107569227309:email-sender-app-EmailSNSTopic-DFR2U2JODGXU","Subject" : "Testings sns","Message" : "{"from": "arun_mr549e@protonmail.com","to_addesses": ["merry.arun@gmail.com", "strider.galaxies@gmail.com"],"title": "Remaining time of Event is Changed","body_html": "<p>Blah Blah</p>","body_text": "Blah Blah"}","Timestamp" : "2022-03-02T09:56:47.658Z","SignatureVersion" : "1","Signature" : "70ig==","SigningCertURL" : "https://sns.us-east-2.amazonaws.com/SimpleNotificationService-7ff5318490ec183fbaddaa2a969abfda.pem","UnsubscribeURL" : "https://sns.us-east-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-2:107569227309:email-sender-app-EmailSNSTopic-DFR2U2JODGXU:45d2fd95-696d-4304-9146-a1d6f4698d83"}
-
-
-{{'from': 'arun_mr549e@protonmail.com','to_addesses': ['merry.arun@gmail.com', 'strider.galaxies@gmail.com'],'title': 'Remaining time of Event is Changed','body_html': '<p>Blah Blah</p>','body_text': 'Blah Blah'}
+{
+  'Error': {
+    'Type': 'Sender',
+    'Code': 'MessageRejected',
+    'Message': 'Email address is not verified. The following identities failed the check in region US-EAST-2: arun_m549e@protonmail.com'
+  },
+  'ResponseMetadata': {
+      'RequestId': 'f4b786e7-553f-4dc2-a4a5-b175d76eeb9c',
+      'HTTPStatusCode': 400,
+      'HTTPHeaders': {
+        'date': 'Thu, 03 Mar 2022 07:46:19 GMT', 
+        'content-type': 'text/xml',
+        'content-length': '365',
+        'connection': 'keep-alive',
+        'x-amzn-requestid': 'f4b786e7-553f-4dc2-a4a5-b175d76eeb9c'
+      },
+      'RetryAttempts': 0
+    }
+  }

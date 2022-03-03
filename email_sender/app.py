@@ -9,15 +9,9 @@ def lambda_handler_sqs(event, context):
     for record in event['Records']:
         payload = json.loads(record["body"])
         print(payload)
-    email_sender.send_email(payload)
+    response = email_sender.send_email(payload)
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": "hello world",
-            # "location": ip.text.replace("\n", "")
-        }),
-    }
+    return response
 
 """ Handle messages from SQS routed through SNS """
 def lambda_handler_sns_sqs(event, context):
@@ -34,12 +28,6 @@ def lambda_handler_sns_sqs(event, context):
         eslogger.info("Message from SNS payload ----")
         eslogger.info(message)
         email_dict = json.loads(message)
-    email_sender.send_email(email_dict)
+    response = email_sender.send_email(email_dict)
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": "hello world",
-            # "location": ip.text.replace("\n", "")
-        }),
-    }
+    return response

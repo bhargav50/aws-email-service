@@ -1,5 +1,6 @@
 
 import boto3
+import json
 import ESLogger as eslogger
 from botocore.exceptions import ClientError
 
@@ -35,11 +36,38 @@ def send_email(email_dict):
             # following line
             # ConfigurationSetName=CONFIGURATION_SET,
         )
+        eslogger.info("Response from SES ---")
         eslogger.info(response)
     # Display an error if something goes wrong.
     except ClientError as e:
+        eslogger.error("Error from SES ----")
+        eslogger.error(e.response)
         eslogger.error(e.response['Error']['Message'])
+        return get_error_response(e.response)
     else:
         eslogger.info("Email sent! Message ID:"),
         eslogger.info(response['MessageId'])
-        return response
+        return get_success_response(response)
+
+
+def get_success_response(ses_response):
+    response = {
+        "statusCode": ses_response['ResponseMetadata']['HTTPStatusCode'],
+        "body": json.dumps({
+            "message": "success",
+            "messageId": ses_response['MessageId']
+            # "location": ip.text.replace("\n", "")
+        }),
+    }
+    return response
+
+def get_error_response(ses_response):
+    response = {
+        "statusCode": ses_response['ResponseMetadata']['HTTPStatusCode'],
+        "body": json.dumps({
+            "message": ses_response['Error']['Message'],
+            "code": ses_response['Error']['Code'],
+            "type": ses_response['Error']['Type']
+        }),
+    }
+    return response
