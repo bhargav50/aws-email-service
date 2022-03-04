@@ -11,20 +11,20 @@ Globals:
     Timeout: 15
 
 Resources:
-  EmailSenderFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: email_sender/
-      Handler: app.lambda_handler_sqs
-      Runtime: python3.9
-      Architectures:
-        - x86_64
-      Events:
-        EmailSender:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /hello
-            Method: get
+#   EmailSenderFunction:
+#     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+#     Properties:
+#       CodeUri: email_sender/
+#       Handler: app.lambda_handler_sqs
+#       Runtime: python3.9
+#       Architectures:
+#         - x86_64
+#       Events:
+#         EmailSender:
+#           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+#           Properties:
+#             Path: /hello
+#             Method: get
 
   EmailSenderQueueFunction:
     Type: AWS::Serverless::Function
@@ -44,7 +44,7 @@ Resources:
   EmailSqsQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: EmailSqsQ
+      # QueueName: EmailSqsQ
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt EmailSqsDLQ.Arn
         maxReceiveCount: 5
@@ -65,16 +65,16 @@ Resources:
       RawMessageDelivery: true
       TopicArn: !Ref EmailSNSTopic
 
-Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  EmailSenderApi:
-    Description: "API Gateway endpoint URL for Prod stage for Email Sender function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  EmailSenderFunction:
-    Description: "Send Email Lambda Function ARN"
-    Value: !GetAtt EmailSenderFunction.Arn
-  EmailSenderFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt EmailSenderFunctionRole.Arn
+# Outputs:
+#   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+#   # Find out more about other implicit resources you can reference within SAM
+#   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+#   EmailSenderApi:
+#     Description: "API Gateway endpoint URL for Prod stage for Email Sender function"
+#     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+#   EmailSenderFunction:
+#     Description: "Send Email Lambda Function ARN"
+#     Value: !GetAtt EmailSenderFunction.Arn
+#   EmailSenderFunctionIamRole:
+#     Description: "Implicit IAM Role created for Hello World function"
+#     Value: !GetAtt EmailSenderFunctionRole.Arn
