@@ -38,12 +38,13 @@ def send_email(email_dict):
         )
         eslogger.info("Response from SES ---")
         eslogger.info(response)
-    # Display an error if something goes wrong.
     except ClientError as e:
         eslogger.error("Error from SES ----")
         eslogger.error(e.response)
         eslogger.error(e.response['Error']['Message'])
-        return get_error_response(e.response)
+        """ Raise error so upstream services like SQS can retry """
+        raise e
+        # return get_error_response(e.response)
     else:
         eslogger.info("Email sent! Message ID:"),
         eslogger.info(response['MessageId'])
