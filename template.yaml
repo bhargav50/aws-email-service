@@ -44,7 +44,6 @@ Resources:
   EmailSqsQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: EmailSqsQ
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt EmailSqsDLQ.Arn
         maxReceiveCount: 5
