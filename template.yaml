@@ -30,7 +30,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: email_sender/
-      Handler: app.lambda_handler_sns_sqs
+      Handler: app.lambda_handler_sqs
       Runtime: python3.9
       Policies:
         - AmazonSESFullAccess
@@ -48,6 +48,27 @@ Resources:
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt EmailSqsDLQ.Arn
         maxReceiveCount: 5
+
+  EmailSqsQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: Allow-SNS-SendMessage
+            Effect: Allow
+            Principal:
+              Service:
+                - "sns.amazonaws.com"
+            Action:
+              - sqs:SendMessage
+            Resource: !GetAtt EmailSqsQueue.Arn
+            Condition:
+              ArnEquals:
+                aws:SourceArn:
+                  Ref: EmailSNSTopic
+      Queues:
+        - Ref: EmailSqsQueue
 
   EmailSqsDLQ:
     Type: AWS::SQS::Queue
