@@ -44,6 +44,8 @@ Resources:
   EmailSqsQueue:
     Type: AWS::SQS::Queue
     Properties:
+      ContentBasedDeduplication: true
+      FifoQueue: true
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt EmailSqsDLQ.Arn
         maxReceiveCount: 5
@@ -71,11 +73,15 @@ Resources:
 
   EmailSqsDLQ:
     Type: AWS::SQS::Queue
+    Properties:
+      FifoQueue: true
 
   EmailSNSTopic:
     Type: AWS::SNS::Topic
     Properties:
-      DisplayName: "email-service-topic"
+      TopicName: "EmailSNSTopic.fifo"
+      ContentBasedDeduplication: true
+      FifoTopic: true
 
   EmailQueueToSnsSubscription:
     Type: AWS::SNS::Subscription
