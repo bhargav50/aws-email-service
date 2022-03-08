@@ -12,7 +12,8 @@ def send_email(email_text):
     response = sns.publish(
         TopicArn=SNS_TOPIC_ARN,
         Message=email_text,
-        Subject="Testing Email Service from local"
+        Subject="Testing Email Service from local",
+        MessageGroupId=get_random_string()  ## For FIFO topic
     )
     print(response)
     print('Sending email')
@@ -21,7 +22,7 @@ def send_email(email_text):
 def test_emails():
     index = 0
 
-    while index < 100:
+    while index < 1:
         random_str = get_random_string()
         index = index + 1
         email_text = "{\"from\": \"arun_mr549e@protonmail.com\","
