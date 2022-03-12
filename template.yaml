@@ -26,7 +26,6 @@ Resources:
           Properties:
             Queue: !GetAtt EmailSqsQueue.Arn
             BatchSize: 10
-            MaximumBatchingWindowInSeconds: 10
             FunctionResponseTypes:
               - ReportBatchItemFailures
 
