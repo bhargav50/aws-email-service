@@ -25,6 +25,11 @@ Resources:
         Variables:
           EMAIL_SQS_QUEUE_URL: !Ref EmailSqsQueue
           EMAIL_MAX_NUMBER_OF_MESSAGES: 5
+      Events:
+        EmailSenderQueueFunction:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
 
 
   EmailSqsQueue:
@@ -69,7 +74,7 @@ Resources:
   EmailSNSTopic:
     Type: AWS::SNS::Topic
     Properties:
-      TopicName: "EmailSNSTopic.fifo"
+      TopicName: "EmailSNSTopicEB.fifo"
       ContentBasedDeduplication: true
       FifoTopic: true
 
