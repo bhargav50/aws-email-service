@@ -3,7 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   email-service
 
-  Sample SAM Template for email-service
+  SAM Template for email-service
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -11,6 +11,22 @@ Globals:
     Timeout: 15
 
 Resources:
+
+  EmailSendingStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      DefinitionUri: statemachine/emailsender.asl.json
+      DefinitionSubstitutions:
+        EmailSenderFunctionArn: !GetAtt EmailSenderQueueFunction.Arn
+      Policies:
+        - LambdaInvokePolicy:
+            FunctionName: !Ref EmailSenderQueueFunction
+      Events:
+        EmailSendingSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+
 
   EmailSenderQueueFunction:
     Type: AWS::Serverless::Function
@@ -25,11 +41,6 @@ Resources:
         Variables:
           EMAIL_SQS_QUEUE_URL: !Ref EmailSqsQueue
           EMAIL_MAX_NUMBER_OF_MESSAGES: 5
-      Events:
-        EmailSenderQueueFunction:
-          Type: Schedule
-          Properties:
-            Schedule: rate(1 minute)
 
 
   EmailSqsQueue:
