@@ -18,14 +18,27 @@ Resources:
       DefinitionUri: statemachine/emailsender.asl.json
       DefinitionSubstitutions:
         EmailSenderFunctionArn: !GetAtt EmailSenderQueueFunction.Arn
+        CounterFunctionArn: !GetAtt CounterFunction.Arn
+      Type: EXPRESS
       Policies:
         - LambdaInvokePolicy:
             FunctionName: !Ref EmailSenderQueueFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref CounterFunction
       Events:
         EmailSendingSchedule:
           Type: Schedule
           Properties:
             Schedule: rate(1 minute)
+            Enabled: false
+
+
+  CounterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: counter/
+      Handler: app.lambda_handler
+      Runtime: python3.9
 
 
   EmailSenderQueueFunction:

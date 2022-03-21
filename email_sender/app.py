@@ -29,4 +29,11 @@ def lambda_handler_sqs(event, context):
     if len(failed_messages) > 0:
         eslogger.info("Failed message count : " + str(len(failed_messages)))
 
-    return {}
+    return get_response_from_input(event)
+
+
+def get_response_from_input(event):
+    return {
+        'iteration_count': event['iteration_count'],
+        'iteration_max_count': event['iteration_max_count']
+    }

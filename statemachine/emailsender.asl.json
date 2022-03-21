@@ -1,8 +1,46 @@
 {
   "Comment": "Email sender state machine",
-  "StartAt": "Lambda Invoke",
+  "StartAt": "Init State",
   "States": {
-    "Lambda Invoke": {
+
+    "Init State":{
+      "Type": "Pass",
+      "Result": {
+        "iteration_max_count": 5
+      },
+      "ResultPath": "$",
+      "Next": "Count Execution"
+    },
+
+    "Count Execution": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "${CounterFunctionArn}"
+      },
+      "Next": "Iteration Count Check"
+    },
+
+    "Iteration Count Check": {
+      "Type": "Choice",
+      "Choices":[
+        {
+          "Variable":"$.iteration_count",
+          "NumericEquals": 1,
+          "Next": "Poll SQS Send Emails"
+        },
+        {
+          "Variable":"$.iteration_count",
+          "NumericGreaterThanPath": "$.iteration_max_count",
+          "Next": "Finish"
+        }
+      ],
+      "Default": "Wait Some Time"
+    },
+
+    "Poll SQS Send Emails": {
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "OutputPath": "$.Payload",
@@ -18,11 +56,23 @@
             "Lambda.SdkClientException"
           ],
           "IntervalSeconds": 2,
-          "MaxAttempts": 6,
+          "MaxAttempts": 3,
           "BackoffRate": 2
         }
       ],
+      "Next": "Count Execution"
+    },
+
+    "Wait Some Time":{
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "Poll SQS Send Emails"
+    },
+
+    "Finish": {
+      "Type": "Pass",
       "End": true
     }
+
   }
 }
