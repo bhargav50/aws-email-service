@@ -12,12 +12,31 @@ Deploy to AWS
 Delete infra Stack
 > aws cloudformation delete-stack --stack-name email-sender-app
 
+### Configurations 
+
+### Maximum number of messages read fom the queue
+
+Update environment variable 'EMAIL_MAX_NUMBER_OF_MESSAGES' in email sender lambda
+
+#### Number of times the application reads from queue and Wait
+
+File : statemachine/emailsender.asl.json
+Update iteration_max_count in "Init State"
+
+### Number of seconds processing waits after one batch
+
+File : statemachine/emailsender.asl.json
+Update "Seconds" in "Wait Some Time"
+
+
+
 
 # email-service
 
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
 
 - email_sender - Code for the application's Lambda function.
+- counter - Lambda function that handles the number of times the function repeats itself
 - events - Invocation events that you can use to invoke the function.
 - tests - Unit tests for the application code.
 - template.yaml - A template that defines the application's AWS resources.
