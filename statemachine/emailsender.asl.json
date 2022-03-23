@@ -6,7 +6,7 @@
     "Init State":{
       "Type": "Pass",
       "Result": {
-        "iteration_max_count": 5
+        "iteration_max_count": 11
       },
       "ResultPath": "$",
       "Next": "Count Execution"

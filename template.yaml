@@ -30,7 +30,7 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: rate(1 minute)
-            Enabled: false
+            Enabled: true
 
 
   CounterFunction:
