@@ -9,6 +9,8 @@ CHARSET = "UTF-8"
 
 client = boto3.client('ses')
 
+clientv2 = boto3.client('sesv2')
+
 def send_email(email_dict):
     try:
         response = client.send_email(
@@ -72,3 +74,14 @@ def get_error_response(ses_response):
         }),
     }
     return response
+
+
+def add_to_suppression_list(emails):
+    if emails is not None:
+        for email in emails:
+            response = clientv2.put_suppressed_destination(
+                EmailAddress=email,
+                Reason='BOUNCE'
+            )
+            eslogger.info('Adding ' + email + ' to suppression list')
+            eslogger.info(response)
