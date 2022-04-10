@@ -47,6 +47,7 @@ Resources:
       CodeUri: email_sender/
       Handler: app.lambda_handler_sqs
       Runtime: python3.9
+      MemorySize: 512
       Policies:
         - AmazonSESFullAccess
         - AWSLambdaSQSQueueExecutionRole

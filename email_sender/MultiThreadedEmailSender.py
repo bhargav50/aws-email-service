@@ -1,4 +1,5 @@
 import json
+import threading
 from botocore.exceptions import ClientError
 
 import ESLogger as eslogger
@@ -8,8 +9,15 @@ import QueueUtil as queue_util
 
 def process_messages(messages):
     failed_messages = []
+    threads = []
     for message in messages:
-        send_email(message, failed_messages)
+        # send_email(message, failed_messages)
+        thread = threading.Thread(target=send_email, args=(message,failed_messages,))
+        threads.append(thread)
+        thread.start()
+
+    for thread in threads:
+        thread.join()
 
     if len(failed_messages) > 0:
         eslogger.info("Failed message count : " + str(len(failed_messages)))
