@@ -1,0 +1,22 @@
+{
+  "Records": [
+    {
+      "EventSource": "aws:sns",
+      "EventVersion": "1.0",
+      "EventSubscriptionArn": "arn:aws:sns:us-east-2:107569227309:BouncedEmailSNSTopic:6de3b91c-33cf-4b6f-a1ce-24861bc89fb0",
+      "Sns": {
+        "Type": "Notification",
+        "MessageId": "01f2f4b2-9659-598e-bc46-ae62581dcc26",
+        "TopicArn": "arn:aws:sns:us-east-2:107569227309:BouncedEmailSNSTopic",
+        "Subject": "None",
+        "Message": "{\"notificationType\":\"Bounce\",\"bounce\":{\"feedbackId\":\"010f0180230cf10b-96a2620c-d716-4bc1-8190-8f3e5752d8cc-000000\",\"bounceType\":\"Permanent\",\"bounceSubType\":\"General\",\"bouncedRecipients\":[{\"emailAddress\":\"bounce@simulator.amazonses.com\",\"action\":\"failed\",\"status\":\"5.1.1\",\"diagnosticCode\":\"smtp; 550 5.1.1 user unknown\"}],\"timestamp\":\"2022-04-13T13:11:32.000Z\",\"remoteMtaIp\":\"34.195.222.17\",\"reportingMTA\":\"dns; e226-5.smtp-out.us-east-2.amazonses.com\"},\"mail\":{\"timestamp\":\"2022-04-13T13:11:31.847Z\",\"source\":\"arun_mr549e@protonmail.com\",\"sourceArn\":\"arn:aws:ses:us-east-2:107569227309:identity/arun_mr549e@protonmail.com\",\"sourceIp\":\"106.200.204.25\",\"sendingAccountId\":\"107569227309\",\"messageId\":\"010f0180230cef07-30bad5d6-10c0-40d8-98a9-c4f1df5264f7-000000\",\"destination\":[\"bounce@sim1ulator.amazonses.com\"],\"headersTruncated\":false,\"headers\":[{\"name\":\"From\",\"value\":\"arun_mr549e@protonmail.com\"},{\"name\":\"To\",\"value\":\"bounce@simulator.amazonses.com\"},{\"name\":\"Subject\",\"value\":\"bounce test 1\"},{\"name\":\"MIME-Version\",\"value\":\"1.0\"},{\"name\":\"Content-Type\",\"value\":\"multipart/alternative; \\tboundary=\\\"----=_Part_8841953_976675224.1649855491849\"}],\"commonHeaders\":{\"from\":[\"arun_mr549e@protonmail.com\"],\"to\":[\"bounce@simulator.amazonses.com\"],\"subject\":\"bounce test 1\"}}}",
+        "Timestamp": "2022-04-13T13:11:32.537Z",
+        "SignatureVersion": "1",
+        "Signature": "hhkjhjhj",
+        "SigningCertUrl": "https://sns.us-east-2.amazonaws.com/SimpleNotificationService-7ff5318490ec183fbaddaa2a969abfda.pem",
+        "UnsubscribeUrl": "https://sns.us-east-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-2:107569227309:BouncedEmailSNSTopic:6de3b91c-33cf-4b6f-a1ce-24861bc89fb0",
+        "MessageAttributes": {}
+      }
+    }
+  ]
+}
