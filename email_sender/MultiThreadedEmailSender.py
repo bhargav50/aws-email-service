@@ -11,7 +11,6 @@ def process_messages(messages):
     failed_messages = []
     threads = []
     for message in messages:
-        # send_email(message, failed_messages)
         thread = threading.Thread(target=send_email, args=(message,failed_messages,))
         threads.append(thread)
         thread.start()
