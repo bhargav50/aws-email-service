@@ -10,7 +10,9 @@ def process_bounced_emails(records):
         eslogger.info(message)
         message_dict = json.loads(message)
         bounced_recipients = message_dict['bounce']['bouncedRecipients']
+        bounce_type = message_dict['bounce']['bounceType']
         for recipient in bounced_recipients:
-            bounced_emails.append(recipient['emailAddress'])
+            if bounce_type == 'Permanent':
+                bounced_emails.append(recipient['emailAddress'])
 
     email_util.add_to_suppression_list(bounced_emails)
