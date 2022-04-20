@@ -12,7 +12,15 @@ Deploy to AWS
 Delete infra Stack
 > aws cloudformation delete-stack --stack-name email-sender-app
 
-### Configurations 
+### Configurations
+
+### Setting up SNS bounce notifications for SES
+
+- Open the [Amazon SES console](https://console.aws.amazon.com/ses/).
+- In the navigation pane, choose Domains or Email Addresses. Then, select the verified domain or email address that you want to get bounce notifications for.
+- Expand Notifications, and then choose Edit Configuration.
+- Under SNS Topic Configuration, for Bounces, select the Bounce SNS topic.
+- Choose Save Config.
 
 ### Maximum number of messages read fom the queue
 
