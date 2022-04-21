@@ -30,8 +30,10 @@ def send_email(message, failed_messages):
         response = email_sender.send_email(payload)
         queue_util.delete_message(message)
     except ClientError as e:
-        eslogger.info("Printing error in handler")
+        eslogger.info("Client Error in send_email()")
         eslogger.error(e)
-        eslogger.info("Printing error response in handler")
-        eslogger.error(e.response)
+        failed_messages.append(message)
+    except Exception as e:
+        eslogger.info("Exception in send_email()")
+        eslogger.error(e)
         failed_messages.append(message)
