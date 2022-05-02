@@ -47,6 +47,7 @@ Resources:
       CodeUri: email_sender/
       Handler: app.lambda_handler_sqs
       Runtime: python3.9
+      MemorySize: 512
       Policies:
         - AmazonSESFullAccess
         - AWSLambdaSQSQueueExecutionRole
@@ -110,6 +111,43 @@ Resources:
       Protocol: sqs
       RawMessageDelivery: true
       TopicArn: !Ref EmailSNSTopic
+
+
+  EmailBounceHandlerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: email_bounce_handler/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Policies:
+        - AmazonSESFullAccess
+    Events:
+      EmailBounceEvent:
+        Type: SNS
+        Properties:
+          Topic: !GetAtt BouncedEmailSNSTopic.Arn
+
+
+  BounceHandlerSNSInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+       Action: lambda:InvokeFunction
+       FunctionName: !Ref EmailBounceHandlerFunction
+       Principal: sns.amazonaws.com
+
+
+  BouncedEmailSNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: "BouncedEmailSNSTopic"
+
+
+  EmailBounceHandlerToSnsSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !GetAtt EmailBounceHandlerFunction.Arn
+      Protocol: lambda
+      TopicArn: !Ref BouncedEmailSNSTopic
 
 # Outputs:
 #   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
